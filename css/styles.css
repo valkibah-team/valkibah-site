@@ -1,0 +1,261 @@
+/* ======================================================
+   VALKIBAH — DESIGN SYSTEM
+   Un ecosistema visual construido alrededor del gesto
+   central del logo: figuras humanas que se conectan.
+   ====================================================== */
+
+/* ---------- Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Superficie — modo oscuro (por defecto, como el logo original) */
+  --bg: #070F0D;
+  --bg-elevated: #0D1C18;
+  --bg-elevated-2: #122720;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-strong: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #F2F6F4;
+  --text-secondary: #9FB6AE;
+  --text-tertiary: #6C8981;
+
+  /* Marca — degradado firma tomado del isotipo de Valkibah */
+  --teal-900: #06231D;
+  --teal-800: #0A3A30;
+  --teal-700: #0F5445;
+  --teal-600: #157A63;
+  --teal-500: #1E9E80;
+  --mint-400: #4FD9A8;
+  --mint-300: #86EFC4;
+  --mint-200: #B7F7DD;
+
+  --gradient-signature: linear-gradient(135deg, var(--teal-700) 0%, var(--teal-500) 45%, var(--mint-400) 100%);
+  --gradient-signature-soft: linear-gradient(135deg, rgba(15,84,69,0.5) 0%, rgba(79,217,168,0.35) 100%);
+  --gradient-text: linear-gradient(100deg, var(--mint-200) 0%, var(--mint-400) 35%, var(--teal-500) 100%);
+
+  /* Acentos de unidades de negocio — solo dentro de sus propias tarjetas */
+  --mokino-gold: #B08A3E;
+  --mokino-gold-soft: #E4CFA0;
+  --valpa-cyan: #2FA6A6;
+  --valpa-cyan-soft: #8FDCDC;
+
+  /* Tipografía */
+  --font-display: 'Fraunces', 'Iowan Old Style', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Espaciado */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6.5rem;
+  --space-3xl: 10rem;
+
+  --container-max: 1240px;
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-full: 999px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.2s;
+  --dur-med: 0.5s;
+  --dur-slow: 0.9s;
+
+  --shadow-soft: 0 20px 60px -20px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 80px -10px rgba(79, 217, 168, 0.25);
+}
+
+/* ---------- Modo claro ---------- */
+[data-theme='light'] {
+  --bg: #F6F8F6;
+  --bg-elevated: #FFFFFF;
+  --bg-elevated-2: #EEF3F0;
+  --surface: rgba(7, 33, 27, 0.03);
+  --surface-strong: rgba(7, 33, 27, 0.05);
+  --border: rgba(7, 33, 27, 0.09);
+  --border-strong: rgba(7, 33, 27, 0.16);
+
+  --text-primary: #0A1E19;
+  --text-secondary: #45605A;
+  --text-tertiary: #7A928C;
+
+  --shadow-soft: 0 20px 60px -20px rgba(10, 30, 25, 0.18);
+  --shadow-glow: 0 0 80px -10px rgba(30, 158, 128, 0.18);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Las <animateMotion> de las partículas son animación SMIL, no CSS,
+     así que no las alcanza la regla de arriba: se ocultan aparte. */
+  .particle { display: none; }
+}
+
+body, h1, h2, h3, h4, p, figure { margin: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur-med) var(--ease-out), color var(--dur-med) var(--ease-out);
+  overflow-x: hidden;
+}
+
+::selection { background: var(--mint-400); color: var(--teal-900); }
+
+:focus-visible {
+  outline: 2px solid var(--mint-400);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Tipografía ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mint-400);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient-signature);
+}
+
+.text-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-secondary { color: var(--text-secondary); }
+
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0 var(--space-md); }
+}
+
+section { position: relative; }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: 0.9rem 1.75rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn-primary {
+  background: var(--gradient-signature);
+  color: #04140F;
+  box-shadow: 0 8px 30px -8px rgba(79, 217, 168, 0.45);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px -8px rgba(79, 217, 168, 0.6);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  backdrop-filter: blur(12px);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-strong);
+  border-color: var(--mint-400);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  color: var(--text-secondary);
+  padding: 0.6rem 0.25rem;
+}
+
+.btn-ghost:hover { color: var(--mint-400); }
+
+/* ---------- Utilidades de vidrio ---------- */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* ---------- Revelado al hacer scroll ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal-delay="1"] { transition-delay: 0.1s; }
+[data-reveal-delay="2"] { transition-delay: 0.2s; }
+[data-reveal-delay="3"] { transition-delay: 0.3s; }
